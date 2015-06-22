@@ -571,7 +571,7 @@ EOTEXT
         list($src, $dst) = $copy;
         passthru(
           csprintf(
-            '(cd %s; svn cp %s %s)',
+            '(cd %s & svn cp %s %s)',
             $repository_api->getPath(),
             ArcanistSubversionAPI::escapeFileNameForSVN($src),
             ArcanistSubversionAPI::escapeFileNameForSVN($dst)));
@@ -580,7 +580,7 @@ EOTEXT
       foreach ($deletes as $delete) {
         passthru(
           csprintf(
-            '(cd %s; svn rm %s)',
+            '(cd %s & svn rm %s)',
             $repository_api->getPath(),
             ArcanistSubversionAPI::escapeFileNameForSVN($delete)));
       }
@@ -609,14 +609,14 @@ EOTEXT
           Filesystem::writeFile($tmp, $patch);
           passthru(
             csprintf(
-              '(cd %s; patch -p0 < %s)',
+              '(cd %s & patch -p0 < %s)',
               $repository_api->getPath(),
               $tmp),
             $err);
         } else {
           passthru(
             csprintf(
-              '(cd %s; touch %s)',
+              '(cd %s & touch %s)',
               $repository_api->getPath(),
               $path),
             $err);
@@ -629,7 +629,7 @@ EOTEXT
       foreach ($adds as $add) {
         passthru(
           csprintf(
-            '(cd %s; svn add %s)',
+            '(cd %s & svn add %s)',
             $repository_api->getPath(),
             ArcanistSubversionAPI::escapeFileNameForSVN($add)));
       }
@@ -644,14 +644,14 @@ EOTEXT
           if ($value === null) {
             passthru(
               csprintf(
-                '(cd %s; svn propdel %s %s)',
+                '(cd %s & svn propdel %s %s)',
                 $repository_api->getPath(),
                 $prop,
                 ArcanistSubversionAPI::escapeFileNameForSVN($path)));
           } else {
             passthru(
               csprintf(
-                '(cd %s; svn propset %s %s %s)',
+                '(cd %s & svn propset %s %s %s)',
                 $repository_api->getPath(),
                 $prop,
                 $value,
